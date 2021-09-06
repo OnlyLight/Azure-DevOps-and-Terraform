@@ -52,5 +52,5 @@ stages:
         appType: 'webAppContainer'
         WebAppName: 'blazordemo123'
         DockerNamespace: 'hub.docker.com'
-        DockerRepository: 'onlylight291998/docker_dotnet'
-        DockerImageTag: '$(tag)'
+        DockerRepository: $(imageRepository)
+        DockerImageTag: $(tag)
