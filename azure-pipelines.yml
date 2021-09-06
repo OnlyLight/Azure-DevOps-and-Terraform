@@ -3,13 +3,21 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+  batch: true
+  branches:
+    include: 
+    - master
+  paths:
+    exclude:
+    - README.md
 
 resources:
 - repo: self
 
 variables:
   tag: '$(Build.BuildId)'
+  imageRepository: 'onlylight291998/docker_dotnet'
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
@@ -18,13 +26,33 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: ubuntu-latest
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       inputs:
         containerRegistry: 'Onlylight Docker Hub'
-        repository: 'onlylight291998/docker_dotnet'
+        repository: $(imageRepository)
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
+
+- stage: Deploy
+  displayName: Deploy to slot
+  jobs:
+  - job: Deploy
+    displayName: Deploy job
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Azure subscription 1(b83d46d1-4304-4425-a0bd-1e828db6aaa3)'
+        appType: 'webAppContainer'
+        WebAppName: 'weatherapi'
+        deployToSlotOrASE: true
+        ResourceGroupName: 'Demo_Deployment'
+        SlotName: 'production'
+        DockerRepository: 'onlylight291998/docker_dotnet'
+        DockerImageTag: '$(tag)'
