@@ -50,9 +50,9 @@ stages:
         ConnectionType: 'AzureRM'
         azureSubscription: 'Azure subscription 1(b83d46d1-4304-4425-a0bd-1e828db6aaa3)'
         appType: 'webAppContainer'
-        WebAppName: 'weatherapi'
+        WebAppName: 'blazordemo123'
         deployToSlotOrASE: true
-        ResourceGroupName: 'Demo_Deployment'
+        ResourceGroupName: 'demo-rg'
         SlotName: 'production'
         DockerRepository: 'onlylight291998/docker_dotnet'
         DockerImageTag: '$(tag)'
