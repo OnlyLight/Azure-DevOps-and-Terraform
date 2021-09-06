@@ -1,1 +1,0 @@
-[![Build Status](https://dev.azure.com/duyquang130/Terraform%20Test/_apis/build/status/OnlyLight.Azure-DevOps-and-Terraform?branchName=master)](https://dev.azure.com/duyquang130/Terraform%20Test/_build/latest?definitionId=3&branchName=master)
