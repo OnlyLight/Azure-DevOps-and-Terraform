@@ -1,39 +1,35 @@
-provider "azurerm" {
-    version = "2.5.0"
-    features {
-      
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.46.0"
     }
-}
-
-resource "azurerm_resource_group" "tf_test" {
-    name = "tfmainrg"
-    location = "Australia East"
-}
-
-variable "imagebuild" {
-    type = string
-    description = "Latest Image Build"
-    default = "v1"
-}
-
-resource "azurerm_container_group" "tfcg_test" {
-    name = "weatherapi"
-    location = azurerm_resource_group.tf_test.location
-    resource_group_name = azurerm_resource_group.tf_test.name
-
-    ip_address_type     = "public"
-    dns_name_label      = "onlylightweatherapi"
-    os_type             = "Linux"
-
-    container {
-        name            = "weatherapi"
-        image           = "onlylight291998/docker_dotnet:${var.imagebuild}"
-        cpu             = "1"
-        memory          = "1"
-
-        ports {
-            port        = 80
-            protocol    = "TCP"
-        }
   }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "app" {
+    name = "demo-rg"
+    location = "Southeast Asia"
+}
+
+resource "azurerm_app_service_plan" "app" {
+  name                = "service-plan"
+  location            = azurerm_resource_group.app.location
+  resource_group_name = azurerm_resource_group.app.name
+
+  sku {
+    tier = "Free"
+    size = "F1"
+  }
+}
+
+resource "azurerm_app_service" "app" {
+  name                = "blazordemo123"
+  location            = azurerm_resource_group.app.location
+  resource_group_name = azurerm_resource_group.app.name
+  app_service_plan_id = azurerm_app_service_plan.app.id
 }
