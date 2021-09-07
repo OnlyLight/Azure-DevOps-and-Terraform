@@ -19,6 +19,7 @@ variables:
   imageRepository: 'onlylight291998/docker_dotnet'
   vmImageName: 'ubuntu-latest'
 
+stages:
 - stage: Build
   displayName: Build image
   jobs:
