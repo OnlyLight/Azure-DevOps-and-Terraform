@@ -36,6 +36,7 @@ stages:
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
+          latest
 
 - stage: Deploy
   displayName: Deploy to slot
