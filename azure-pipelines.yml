@@ -31,7 +31,7 @@ stages:
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: 'Azure DevOps'
-        KeyVaultName: 'key-vault-demo-12'
+        KeyVaultName: 'kvault-demo-12'
         SecretsFilter: '*'
         RunAsPreJob: false
     - task: Docker@2

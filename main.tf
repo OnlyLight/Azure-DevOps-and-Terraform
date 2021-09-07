@@ -16,6 +16,46 @@ resource "azurerm_resource_group" "app" {
     location = "Southeast Asia"
 }
 
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault" "kvault" {
+  name                = "kvault-demo-12"
+  location            = azurerm_resource_group.app.location
+  resource_group_name = azurerm_resource_group.app.name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  sku_name            = "standard"
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = data.azurerm_client_config.current.object_id
+
+    key_permissions = [
+      "create",
+      "get",
+    ]
+
+    secret_permissions = [
+      "set",
+      "get",
+      "list",
+      "delete",
+      "purge",
+      "recover"
+    ]
+  }
+}
+
+resource "random_string" "password" {
+  length  = 32
+  special = true
+}
+
+resource "azurerm_key_vault_secret" "example" {
+  name         = "secret-sauce"
+  value        = random_string.password.result
+  key_vault_id = azurerm_key_vault.kvault.id
+}
+
 resource "azurerm_app_service_plan" "app" {
   name                = "service-plan"
   location            = azurerm_resource_group.app.location
