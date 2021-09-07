@@ -20,6 +20,19 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
+- stage: Test Key
+  displayName: Test Key
+  jobs:
+  - job: TestKey
+    displayName: Test Key
+    steps:
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: 'Azure subscription 1(b83d46d1-4304-4425-a0bd-1e828db6aaa3)'
+        KeyVaultName: 'key-vault-demo-12'
+        SecretsFilter: '*'
+        RunAsPreJob: true
+  
 - stage: Build
   displayName: Build image
   jobs:
@@ -28,12 +41,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: AzureKeyVault@2
-      inputs:
-        azureSubscription: 'Azure subscription 1(b83d46d1-4304-4425-a0bd-1e828db6aaa3)'
-        KeyVaultName: 'key-vault-demo-12'
-        SecretsFilter: '*'
-        RunAsPreJob: true
     - task: Docker@2
       inputs:
         containerRegistry: 'Onlylight Docker Hub'
