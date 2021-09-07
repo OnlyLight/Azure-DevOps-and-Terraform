@@ -20,11 +20,11 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Test Key
-  displayName: Test Key
+- stage: TestKey
+  displayName: TestKey
   jobs:
   - job: TestKey
-    displayName: Test Key
+    displayName: TestKey
     steps:
     - task: AzureKeyVault@2
       inputs:
