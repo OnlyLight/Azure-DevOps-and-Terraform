@@ -19,20 +19,6 @@ variables:
   imageRepository: 'onlylight291998/docker_dotnet'
   vmImageName: 'ubuntu-latest'
 
-stages:
-- stage: TestKey
-  displayName: TestKey
-  jobs:
-  - job: TestKey
-    displayName: TestKey
-    steps:
-    - task: AzureKeyVault@2
-      inputs:
-        azureSubscription: 'Azure subscription 1(b83d46d1-4304-4425-a0bd-1e828db6aaa3)'
-        KeyVaultName: 'key-vault-demo-12'
-        SecretsFilter: '*'
-        RunAsPreJob: true
-  
 - stage: Build
   displayName: Build image
   jobs:
