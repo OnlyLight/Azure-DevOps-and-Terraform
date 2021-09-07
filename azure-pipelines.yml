@@ -54,4 +54,4 @@ stages:
         WebAppName: 'blazordemo123'
         DockerNamespace: 'registry-1.docker.io'
         DockerRepository: $(imageRepository)
-        DockerImageTag: $(tag)
+        DockerImageTag: latest
