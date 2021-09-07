@@ -28,6 +28,12 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: 'Azure DevOps'
+        KeyVaultName: 'kvault-demo-12'
+        SecretsFilter: '*'
+        RunAsPreJob: false
     - task: Docker@2
       inputs:
         containerRegistry: 'Onlylight Docker Hub'
@@ -49,9 +55,9 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'Azure subscription 1(b83d46d1-4304-4425-a0bd-1e828db6aaa3)'
+        azureSubscription: 'Azure DevOps'
         appType: 'webAppContainer'
         WebAppName: 'blazordemo123'
         DockerNamespace: 'registry-1.docker.io'
         DockerRepository: $(imageRepository)
-        DockerImageTag: ${tag}
+        DockerImageTag: 'latest'
