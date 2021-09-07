@@ -60,4 +60,4 @@ stages:
         WebAppName: 'blazordemo123'
         DockerNamespace: 'registry-1.docker.io'
         DockerRepository: 'onlylight291998/docker_dotnet'
-        DockerImageTag: 'latest'
+        DockerImageTag: '$(tag)'
