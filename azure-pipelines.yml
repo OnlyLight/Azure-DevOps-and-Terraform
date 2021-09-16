@@ -61,12 +61,9 @@ stages:
         DockerNamespace: 'registry-1.docker.io'
         DockerRepository: '$(imageRepository)'
         DockerImageTag: '$(tag)'
-    - task: AzureMonitorAlerts@0
+    - task: AzureMonitor@1
       inputs:
-        azureSubscription: 'Azure DevOps'
+        connectedServiceNameARM: 'Azure DevOps'
         ResourceGroupName: 'demo-rg'
-        ResourceType: 'Microsoft.Web/sites'
-        ResourceName: 'blazordemo123'
-        AlertRules: 'Sev 2'
-        NotifyServiceOwners: true
-        NotifyEmails: 'duyquang130@gmail.com'
+        filterType: 'resource'
+        resource: 'Microsoft.Web/sites/blazordemo123'
