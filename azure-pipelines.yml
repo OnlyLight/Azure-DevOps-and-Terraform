@@ -61,9 +61,14 @@ stages:
         DockerNamespace: 'registry-1.docker.io'
         DockerRepository: '$(imageRepository)'
         DockerImageTag: '$(tag)'
-    - task: AzureMonitor@1
+    - task: AzureAppServiceManage@0
       inputs:
-        connectedServiceNameARM: 'Azure DevOps'
+        azureSubscription: 'Azure DevOps'
+        Action: 'Enable Continuous Monitoring'
+        WebAppName: 'blazordemo123'
+        SpecifySlotOrASE: true
         ResourceGroupName: 'demo-rg'
-        filterType: 'resource'
-        resource: 'Microsoft.Web/sites/blazordemo123'
+        Slot: 'production'
+        AppInsightsResourceGroupName: 'demo-rg'
+        ApplicationInsightsResourceName: 'Test Insights'
+        ApplicationInsightsWebTestName: 'Test Insights'
