@@ -1,7 +1,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "kvault" {
-  name                = "kvault-demo-12"
+  name                = "${var.environment}-key-vault"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   tenant_id           = data.azurerm_client_config.current.tenant_id
@@ -33,7 +33,7 @@ resource "random_string" "password" {
 }
 
 resource "azurerm_key_vault_secret" "secret" {
-  name         = "secret-sauce"
+  name         = "${var.environment}-secret"
   value        = random_string.password.result
   key_vault_id = azurerm_key_vault.kvault.id
 }
