@@ -42,3 +42,4 @@ msbuild.wrn
 # Terraform
 .terraform*
 terraform*
+*.tfvars

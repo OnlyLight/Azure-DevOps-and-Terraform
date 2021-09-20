@@ -19,6 +19,11 @@ resource "azurerm_public_ip" "grafana" {
   allocation_method            = "Dynamic"
 }
 
+data "azurerm_public_ip" "grafana" {
+  name = azurerm_public_ip.grafana.name
+  resource_group_name = azurerm_public_ip.grafana.resource_group_name
+}
+
 resource "azurerm_network_security_group" "grafana" {
   name                = "${var.environment}-${var.prefix_grafana}-network-security-group"
   location            = azurerm_resource_group.example.location
@@ -81,4 +86,21 @@ resource "azurerm_linux_virtual_machine" "grafana" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -",
+  #     "sudo add-apt-repository 'deb https://packages.grafana.com/oss/deb stable main'",
+  #     "sudo apt update",
+  #     "sudo apt install grafana",
+  #     "sudo systemctl start grafana-server",
+  #     "sudo systemctl enable grafana-server"
+  #   ]
+  #   connection {
+  #     host        = data.azurerm_public_ip.grafana.ip_address
+  #     type        = "ssh"
+  #     user        = "adminuser"
+  #     private_key = file("~/.ssh/id_rsa")
+  #   }
+  # }
 }
