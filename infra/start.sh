@@ -12,9 +12,9 @@ cd tf/
 if grep "environment" env.tfvars; then
   grep -v "environment" env.tfvars > tmpfile && mv tmpfile env.tfvars
 fi
-echo 'environment = "'$1'"' >> env.tfvars
+echo 'environment = "'$2'"' >> env.tfvars
 
-case $2 in
+case $1 in
 "init")
   terraform init
   ;;
