@@ -66,7 +66,7 @@ stages:
       inputs:
         SendGridApiKey: '$(keySendGrid)'
         FromAddress: 'duyquang130@gmail.com'
-        ToAddresses: 'duyquang130@gmail.com'
+        ToAddresses: 'duyquangtran@kms-technology.com'
         Subject: 'Deploy'
         emailBodyFormat: 'InLine'
         EmailBody: 'Deploy Success !!'
