@@ -69,4 +69,5 @@ stages:
         ToAddresses: 'duyquangtran@kms-technology.com'
         Subject: 'Deploy'
         emailBodyFormat: 'InLine'
-        EmailBody: 'Deploy Success !!'
+        EmailBody: '<h2>Status Build: $(Agent.JobStatus)</h2><br /><h3>Build Reason: $(Build.Reason)</h3><br /><h3>SourceBranch: $(Build.SourceBranchName)<br/> <b>SourceVersionMessage: $(Build.SourceVersionMessage)</b></h3><br/><b>TriggeredBy.DefinitionName: $(Build.TriggeredBy.DefinitionName)</b>'
+        SendAsHTML: true
