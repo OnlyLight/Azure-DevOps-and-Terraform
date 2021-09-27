@@ -18,6 +18,7 @@ variables:
   tag: '$(Build.BuildId)'
   imageRepository: 'onlylight291998/docker_dotnet'
   vmImageName: 'ubuntu-latest'
+  keySendGrid: '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'
 
 stages:
 - stage: Build
@@ -61,3 +62,11 @@ stages:
         DockerNamespace: 'registry-1.docker.io'
         DockerRepository: '$(imageRepository)'
         DockerImageTag: '$(tag)'
+    - task: SendGridEmail@2
+      inputs:
+        SendGridApiKey: '$(keySendGrid)'
+        FromAddress: 'duyquang130@gmail.com'
+        ToAddresses: 'duyquang130@gmail.com'
+        Subject: 'Deploy'
+        emailBodyFormat: 'InLine'
+        EmailBody: 'Deploy Success !!'
