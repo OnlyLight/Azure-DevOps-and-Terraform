@@ -21,29 +21,29 @@ variables:
   keySendGrid: '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'
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    # - task: AzureKeyVault@2
-    #   inputs:
-    #     azureSubscription: 'Azure DevOps'
-    #     KeyVaultName: 'kvault-demo-12'
-    #     SecretsFilter: '*'
-    #     RunAsPreJob: false
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'Onlylight Docker Hub'
-        repository: $(imageRepository)
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          $(tag)
-          latest
+# - stage: Build
+#   displayName: Build image
+#   jobs:
+#   - job: Build
+#     displayName: Build
+#     pool:
+#       vmImage: $(vmImageName)
+#     steps:
+#     - task: AzureKeyVault@2
+#       inputs:
+#         azureSubscription: 'Azure DevOps'
+#         KeyVaultName: 'kvault-demo-12'
+#         SecretsFilter: '*'
+#         RunAsPreJob: false
+#     - task: Docker@2
+#       inputs:
+#         containerRegistry: 'Onlylight Docker Hub'
+#         repository: $(imageRepository)
+#         command: 'buildAndPush'
+#         Dockerfile: '**/Dockerfile'
+#         tags: |
+#           $(tag)
+#           latest
 
 - stage: Deploy
   displayName: Deploy to slot
@@ -53,15 +53,15 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Azure DevOps'
-        appType: 'webAppContainer'
-        WebAppName: 'blazordemo123'
-        DockerNamespace: 'registry-1.docker.io'
-        DockerRepository: '$(imageRepository)'
-        DockerImageTag: '$(tag)'
+    # - task: AzureRmWebAppDeployment@4
+    #   inputs:
+    #     ConnectionType: 'AzureRM'
+    #     azureSubscription: 'Azure DevOps'
+    #     appType: 'webAppContainer'
+    #     WebAppName: 'blazordemo123'
+    #     DockerNamespace: 'registry-1.docker.io'
+    #     DockerRepository: '$(imageRepository)'
+    #     DockerImageTag: '$(tag)'
     - task: SendGridEmail@2
       inputs:
         SendGridApiKey: '$(keySendGrid)'
@@ -69,5 +69,5 @@ stages:
         ToAddresses: 'duyquangtran@kms-technology.com'
         Subject: 'Deploy'
         emailBodyFormat: 'InLine'
-        EmailBody: '<h2>Status Build: $(Agent.JobStatus)</h2><br /><h3>Build Reason: $(Build.Reason)</h3><br /><h3>SourceBranch: $(Build.SourceBranchName)<br/> <b>SourceVersionMessage: $(Build.SourceVersionMessage)</b></h3><br/><b>TriggeredBy.DefinitionName: $(Build.TriggeredBy.DefinitionName)</b>'
+        EmailBody: '<h3>SourceBranch: $(Build.SourceBranch)</h3><h3>SourceBranch: $(Build.SourceBranchName)</h3><br/><b>SourceVersionMessage: $(Build.SourceVersionMessage)</b>'
         SendAsHTML: true
