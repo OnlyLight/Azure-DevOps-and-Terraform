@@ -69,5 +69,5 @@ stages:
         ToAddresses: 'duyquangtran@kms-technology.com'
         Subject: 'Deploy'
         emailBodyFormat: 'InLine'
-        EmailBody: '<h3>SourceBranch: $(Build.SourceBranch)</h3><h3>SourceBranch: $(Build.SourceBranchName)</h3><br/><b>SourceVersionMessage: $(Build.SourceVersionMessage)</b>'
+        EmailBody: '<h3>SourceBranch: $(System.JobId)</h3><h3>URI: $(System.PullRequest.SourceRepositoryURI)</h3><h3>PR Id: $(System.PullRequest.PullRequestId)</h3><h3>SourceBranch: $(Build.SourceBranchName)</h3><br/><b>SourceVersionMessage: $(Build.SourceVersionMessage)</b><br/><b>SourceVersion $(Build.SourceVersion)</b>'
         SendAsHTML: true
