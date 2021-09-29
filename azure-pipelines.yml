@@ -63,5 +63,5 @@ stages:
         ToAddresses: 'Duy Tran <duyquangtran@kms-technology.com>, Duy Tran <duyquang130@gmail.com>'
         Subject: '$(Build.DefinitionName) Finished Successfully'
         emailBodyFormat: 'InLine'
-        EmailBody: '<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(Build.SourceVersionMessage)</h4>'
+        EmailBody: '$(Build.SourceBranch)<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(Build.SourceVersionMessage)</h4>'
         sendAsHtml: true
