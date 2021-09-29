@@ -19,58 +19,20 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
-  imageRepository: 'onlylight291998/docker_dotnet'
-  vmImageName: 'ubuntu-latest'
-  keySendGrid: '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'
+  keySendGrid: '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'
 
 stages:
-# - stage: Build
-#   displayName: Build image
-#   jobs:
-#   - job: Build
-#     displayName: Build
-#     pool:
-#       vmImage: $(vmImageName)
-#     steps:
-#     - task: AzureKeyVault@2
-#       inputs:
-#         azureSubscription: 'Azure DevOps'
-#         KeyVaultName: 'kvault-demo-12'
-#         SecretsFilter: '*'
-#         RunAsPreJob: false
-#     - task: Docker@2
-#       inputs:
-#         containerRegistry: 'Onlylight Docker Hub'
-#         repository: $(imageRepository)
-#         command: 'buildAndPush'
-#         Dockerfile: '**/Dockerfile'
-#         tags: |
-#           $(tag)
-#           latest
-
 - stage: Deploy
   displayName: Deploy to slot
   jobs:
   - job: Deploy
     displayName: Deploy job
-    pool:
-      vmImage: $(vmImageName)
     steps:
-    # - task: AzureRmWebAppDeployment@4
-    #   inputs:
-    #     ConnectionType: 'AzureRM'
-    #     azureSubscription: 'Azure DevOps'
-    #     appType: 'webAppContainer'
-    #     WebAppName: 'blazordemo123'
-    #     DockerNamespace: 'registry-1.docker.io'
-    #     DockerRepository: '$(imageRepository)'
-    #     DockerImageTag: '$(tag)'
     - task: SendGridEmail@2
       inputs:
         SendGridApiKey: '$(keySendGrid)'
         FromAddress: 'duyquang130@gmail.com'
-        ToAddresses: 'duyquang130@gmail.com, duyquangtran@kms-technology.com'
+        ToAddresses: 'duyquangtran@kms-technology.com'
         Subject: 'Deploy'
         emailBodyFormat: 'InLine'
         EmailBody: 'Deploy Success'
