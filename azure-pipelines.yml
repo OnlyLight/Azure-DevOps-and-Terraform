@@ -2,11 +2,11 @@
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-  batch: true
+pr:
   branches:
-    include: 
+    include:
     - master
+    - feature/*
   paths:
     exclude:
     - README.md
@@ -50,8 +50,8 @@ stages:
   jobs:
   - job: Deploy
     displayName: Deploy job
-    pool:
-      vmImage: $(vmImageName)
+    # pool:
+    #   vmImage: $(vmImageName)
     steps:
     # - task: AzureRmWebAppDeployment@4
     #   inputs:
