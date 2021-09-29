@@ -18,9 +18,6 @@ pr:
 resources:
 - repo: self
 
-variables:
-  keySendGrid: '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'
-
 stages:
 - stage: Deploy
   displayName: Deploy to slot
@@ -30,7 +27,7 @@ stages:
     steps:
     - task: SendGridEmail@2
       inputs:
-        SendGridApiKey: '$(keySendGrid)'
+        SendGridApiKey: '$(SendGridKey)'
         FromAddress: 'Duy Tran <duyquang130@gmail.com>'
         ToAddresses: 'Duy Tran <duyquangtran@kms-technology.com>, Duy Tran <duyquang130@gmail.com>'
         Subject: '$(Build.DefinitionName) Finished Successfully'
