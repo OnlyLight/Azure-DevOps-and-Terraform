@@ -18,7 +18,7 @@ variables:
   tag: '$(Build.BuildId)'
   imageRepository: 'onlylight291998/docker_dotnet'
   vmImageName: 'ubuntu-latest'
-  keySendGrid: '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'
+  keySendGrid: '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'
 
 stages:
 # - stage: Build
