@@ -2,23 +2,22 @@
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-  batch: true
-  branches:
-    include: 
-    - master
-  paths:
-    exclude:
-    - README.md
-
-# pr:
+# trigger:
+#   batch: true
 #   branches:
-#     include:
+#     include: 
 #     - master
-#     - feature/*
 #   paths:
 #     exclude:
 #     - README.md
+
+pr:
+  branches:
+    include:
+    - feature/*
+  paths:
+    exclude:
+    - README.md
 
 resources:
 - repo: self
@@ -73,7 +72,7 @@ stages:
     #     DockerImageTag: '$(tag)'
     - task: SendGridEmail@2
       inputs:
-        SendGridApiKey: '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'
+        SendGridApiKey: '$(keySendGrid)'
         FromAddress: 'duyquang130@gmail.com'
         ToAddresses: 'duyquang130@gmail.com, duyquangtran@kms-technology.com'
         Subject: 'Deploy'
