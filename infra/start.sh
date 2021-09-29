@@ -32,6 +32,7 @@ runTerraform()
   esac
 }
 
+# Check command
 if [ "$CMD" == "plan" -o "$CMD" == "apply" ]; then
   if [ $ENV == "staging" -o $ENV == "production" ]; then
     if grep "environment" env.tfvars; then

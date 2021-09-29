@@ -2,22 +2,18 @@
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-# trigger:
-#   batch: true
-#   branches:
-#     include: 
-#     - master
-#   paths:
-#     exclude:
-#     - README.md
-
-pr:
-  branches:
-    include:
-    - feature/*
+trigger:
+  batch: true
   paths:
     exclude:
     - README.md
+
+# trigger target branch
+pr:
+  branches:
+    include:
+    - master
+    - develop
 
 resources:
 - repo: self
