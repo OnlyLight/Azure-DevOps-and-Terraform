@@ -12,6 +12,9 @@ pr:
 resources:
 - repo: self
 
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
 stages:
 # - stage: Build
 #   displayName: Build image
@@ -53,7 +56,7 @@ stages:
     #     DockerRepository: '$(imageRepository)'
     #     DockerImageTag: '$(tag)'
     - task: SendGridEmail@2
-      condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+      condition: and(succeeded(), eq(variables.isMain, 'false'))
       inputs:
         SendGridApiKey: '$(SendGridKey)'
         FromAddress: 'Duy Tran <duyquang130@gmail.com>'
