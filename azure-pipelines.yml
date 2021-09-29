@@ -50,8 +50,8 @@ stages:
   jobs:
   - job: Deploy
     displayName: Deploy job
-    # pool:
-    #   vmImage: $(vmImageName)
+    pool:
+      vmImage: $(vmImageName)
     steps:
     # - task: AzureRmWebAppDeployment@4
     #   inputs:
