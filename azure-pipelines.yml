@@ -73,9 +73,9 @@ stages:
     #     DockerImageTag: '$(tag)'
     - task: SendGridEmail@2
       inputs:
-        SendGridApiKey: '$(keySendGrid)'
+        SendGridApiKey: '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'
         FromAddress: 'duyquang130@gmail.com'
-        ToAddresses: 'duyquangtran@kms-technology.com'
+        ToAddresses: 'duyquang130@gmail.com, duyquangtran@kms-technology.com'
         Subject: 'Deploy'
         emailBodyFormat: 'InLine'
-        EmailBody: 'Deploy Success !!'
+        EmailBody: 'Deploy Success'
