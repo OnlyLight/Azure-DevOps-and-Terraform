@@ -32,7 +32,8 @@ stages:
       inputs:
         SendGridApiKey: '$(keySendGrid)'
         FromAddress: 'Duy Tran <duyquang130@gmail.com>'
-        ToAddresses: 'Duy Tran <duyquangtran@kms-technology.com>'
-        Subject: '$(Build.DefinitionNam) Finished Successfully'
+        ToAddresses: 'Duy Tran <duyquangtran@kms-technology.com>, Duy Tran <duyquang130@gmail.com>'
+        Subject: '$(Build.DefinitionName) Finished Successfully'
         emailBodyFormat: 'InLine'
-        EmailBody: 'Deploy Success'
+        EmailBody: '<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(Build.SourceVersionMessage)</h4><h4>URI $(System.PullRequest.SourceRepositoryURI)</h4>'
+        sendAsHtml: true
