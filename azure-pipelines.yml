@@ -13,7 +13,7 @@ resources:
 - repo: self
 
 variables:
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
 stages:
 # - stage: Build
