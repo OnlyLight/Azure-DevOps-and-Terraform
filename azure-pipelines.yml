@@ -2,12 +2,6 @@
 # Build a Docker image
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-  batch: true
-  paths:
-    exclude:
-    - README.md
-
 # trigger target branch
 pr:
   branches:
@@ -18,19 +12,56 @@ pr:
 resources:
 - repo: self
 
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
 stages:
+# - stage: Build
+#   displayName: Build image
+#   jobs:
+#   - job: Build
+#     displayName: Build
+#     pool:
+#       vmImage: $(vmImageName)
+#     steps:
+#     - task: AzureKeyVault@2
+#       inputs:
+#         azureSubscription: 'Azure DevOps'
+#         KeyVaultName: 'kvault-demo-12'
+#         SecretsFilter: '*'
+#         RunAsPreJob: false
+#     - task: Docker@2
+#       inputs:
+#         containerRegistry: 'Onlylight Docker Hub'
+#         repository: $(imageRepository)
+#         command: 'buildAndPush'
+#         Dockerfile: '**/Dockerfile'
+#         tags: |
+#           $(tag)
+#           latest
 - stage: Deploy
   displayName: Deploy to slot
   jobs:
   - job: Deploy
     displayName: Deploy job
     steps:
+    # - task: AzureRmWebAppDeployment@4
+    #   condition: succeeded()
+    #   inputs:
+    #     ConnectionType: 'AzureRM'
+    #     azureSubscription: 'Azure DevOps'
+    #     appType: 'webAppContainer'
+    #     WebAppName: 'blazordemo123'
+    #     DockerNamespace: 'registry-1.docker.io'
+    #     DockerRepository: '$(imageRepository)'
+    #     DockerImageTag: '$(tag)'
     - task: SendGridEmail@2
+      condition: and(succeeded(), eq(variables.isMain, 'false'))
       inputs:
         SendGridApiKey: '$(SendGridKey)'
         FromAddress: 'Duy Tran <duyquang130@gmail.com>'
         ToAddresses: 'Duy Tran <duyquangtran@kms-technology.com>, Duy Tran <duyquang130@gmail.com>'
         Subject: '$(Build.DefinitionName) Finished Successfully'
         emailBodyFormat: 'InLine'
-        EmailBody: '<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(Build.SourceVersionMessage)</h4><h4>URI $(System.PullRequest.SourceRepositoryURI)</h4>'
+        EmailBody: '<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(Build.SourceVersionMessage)</h4>'
         sendAsHtml: true
