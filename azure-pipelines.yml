@@ -19,7 +19,7 @@ resources:
 - repo: self
 
 variables:
-  keySendGrid: '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'
+  keySendGrid: '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'
 
 stages:
 - stage: Deploy
