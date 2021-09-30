@@ -63,7 +63,7 @@ stages:
           $request = "$baseUrl/$env:RELEASE_ARTIFACTS_Terraform%20Test_SOURCEVERSION"
           Write-Host "Request: $request"
           
-          $response = Invoke-WebRequest -Uri $request
+          $response = Invoke-WebRequest -Uri $baseUrl
           $json = ($response | ConvertFrom-Json)
           $comment = $json.comment
           Write-Host "Response: $comment"
