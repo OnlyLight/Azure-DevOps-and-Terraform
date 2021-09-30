@@ -62,12 +62,11 @@ stages:
           $baseUrl = "https://dev.azure.com/duyquang130/Terraform%20Test/_apis/git/repositories/Terraform%20Test/commits"
           $request = "$baseUrl/$env:RELEASE_ARTIFACTS_Terraform%20Test_SOURCEVERSION"
           Write-Host "Request: $request"
-          
-          $response = Invoke-WebRequest -Uri $request -Headers $headers
-          $json = ($response | ConvertFrom-Json)
+
+          $json = Invoke-WebRequest -Uri $request -Headers $headers | ConvertFrom-Json
           $comment = $json.comment
           Write-Host "Response: $comment"
-          
+
           Write-Host "##vso[task.setvariable variable=commitComment;]$comment"
     - task: SendGridEmail@2
       condition: and(succeeded(), eq(variables.isMain, 'false'))
