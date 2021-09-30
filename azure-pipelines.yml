@@ -60,12 +60,8 @@ stages:
         targetType: 'inline'
         script: |
           $baseUrl = "https://dev.azure.com/duyquang130/Terraform%20Test/_apis/git/repositories/Terraform%20Test/commits"
-          $request = "$baseUrl/$env:RELEASE_ARTIFACTS_Terraform%20Test_SOURCEVERSION"
-          Write-Host "Request: $request"
-          
           $response = Invoke-WebRequest -Uri $baseUrl
-          $json = ($response)
-          $comment = $json.comment
+          $comment = $response.comment
           Write-Host "Response: $comment"
           
           Write-Host "##vso[task.setvariable variable=commitComment;]$comment"
