@@ -59,12 +59,12 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          $baseUrl = "https://dev.azure.com/duyquang130/Terraform%20Test/_apis/git/repositories/Terraform%20Test/commits?api-version=6.0"
+          $baseUrl = "https://dev.azure.com/duyquang130/Terraform%20Test/_apis/git/repositories/Terraform%20Test/commits"
           $request = "$baseUrl/$env:RELEASE_ARTIFACTS_Terraform%20Test_SOURCEVERSION"
           Write-Host "Request: $request"
           
           $response = Invoke-WebRequest -Uri $request
-          $json = ($response | ConvertFrom-Json)
+          $json = (Get-Content $response -Raw | ConvertFrom-Json)
           $comment = $json.comment
           Write-Host "Response: $comment"
           
