@@ -55,6 +55,29 @@ stages:
     #     DockerNamespace: 'registry-1.docker.io'
     #     DockerRepository: '$(imageRepository)'
     #     DockerImageTag: '$(tag)'
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          $token = "Bearer $env:SYSTEM_ACCESSTOKEN"
+          $headers = @{ Authorization = $token }
+          Write-Host "Token: $token"
+          Write-Host "Headers: $headers"
+        
+          $baseUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.ID)/commits"
+          $request = "$baseUrl/$env:RELEASE_ARTIFACTS_$(Build.Repository.Name)_SOURCEVERSION"
+          Write-Host "Request: $request"
+
+          $response = Invoke-WebRequest -Uri $request -Headers $headers
+          $json = ($response | ConvertFrom-Json)
+          $lastCommit = $json.value[0]
+          Write-Host "Last Commit: $lastCommit"
+          
+          $comment = $lastCommit.comment
+          Write-Host "Comment: $comment"
+          Write-Host "##vso[task.setvariable variable=CommitMessage;]$comment"
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     - task: SendGridEmail@2
       condition: and(succeeded(), eq(variables.isMain, 'false'))
       inputs:
@@ -63,5 +86,5 @@ stages:
         ToAddresses: 'Duy Tran <duyquangtran@kms-technology.com>, Duy Tran <duyquang130@gmail.com>'
         Subject: '$(Build.DefinitionName) Finished Successfully'
         emailBodyFormat: 'InLine'
-        EmailBody: '$(Build.SourceBranch)<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(Build.SourceVersionMessage)</h4>'
+        EmailBody: '$(Build.SourceBranch)<h4>SourceBranch $(System.PullRequest.SourceBranch)</h4><h4>TargetBranch $(System.PullRequest.TargetBranch)</h4><h4>SourceVersionMessage $(commitComment)</h4>'
         sendAsHtml: true
