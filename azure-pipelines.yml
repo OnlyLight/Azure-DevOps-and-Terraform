@@ -64,7 +64,7 @@ stages:
           Write-Host "Request: $request"
           
           $response = Invoke-WebRequest -Uri $request
-          $json = (Get-Content $response -Raw | ConvertFrom-Json)
+          $json = (Get-Content $response | ConvertFrom-Json)
           $comment = $json.comment
           Write-Host "Response: $comment"
           
