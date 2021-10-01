@@ -59,7 +59,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          $baseUrl = "https://dev.azure.com/duyquang130/Terraform%20Test/_apis/git/repositories/Terraform%20Test/commits"
+          $baseUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/commits?api-version=6.0"
           $response = Invoke-WebRequest -Uri $baseUrl
           $comment = $response.comment
           Write-Host "Response: $comment"
