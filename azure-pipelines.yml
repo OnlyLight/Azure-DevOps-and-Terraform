@@ -60,6 +60,8 @@ stages:
         targetType: 'inline'
         script: |
           $baseUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/commits?api-version=6.0"
+          Write-Host "Request: $baseUrl"
+
           $response = Invoke-WebRequest -Uri $baseUrl
           $comment = $response.comment
           Write-Host "Response: $comment"
