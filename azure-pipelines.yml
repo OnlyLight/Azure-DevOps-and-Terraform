@@ -59,15 +59,25 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          $baseUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/commits?api-version=6.0"
+          $token = "Bearer $env:SYSTEM_ACCESSTOKEN"
+          $headers = @{ Authorization = $token }
+          Write-Host "Token: $token"
+          Write-Host "Headers: $headers"
+        
+          $baseUrl = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.ID)/commits"
           $request = "$baseUrl/$env:RELEASE_ARTIFACTS_$(Build.Repository.Name)_SOURCEVERSION"
           Write-Host "Request: $request"
 
-          $response = Invoke-WebRequest -Uri $request
-          $comment = $response.comment
-          Write-Host "Response: $comment"
+          $response = Invoke-WebRequest -Uri $request -Headers $headers
+          $json = ($response | ConvertFrom-Json)
+          $lastCommit = $json.value[0]
+          Write-Host "Last Commit: $lastCommit"
           
-          Write-Host "##vso[task.setvariable variable=commitComment;]$comment"
+          $comment = $lastCommit.comment
+          Write-Host "Comment: $comment"
+          Write-Host "##vso[task.setvariable variable=CommitMessage;]$comment"
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
     - task: SendGridEmail@2
       condition: and(succeeded(), eq(variables.isMain, 'false'))
       inputs:
